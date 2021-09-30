@@ -32,11 +32,11 @@ package object generators {
     playerData <- blankPlayerDataGen(grid)
   } yield GameData(grid, playerData)
 
-  def gameDataResourceGen[F[_]: Sync]: Gen[Resource[F, GameData]] =
+  def v1gameDataResourceGen[F[_]: Sync]: Gen[Resource[F, GameData]] =
     for {
       blankGameData <- gameDataWithBlankPlayerGen
       playerInputs  <- Gen.nonEmptyListOf(implicitly[Arbitrary[PlayerInput]].arbitrary)
-      gameEngine = GameEngine.v1[F](blankGameData)
+      gameEngine = GameEngine.V1[F](blankGameData)
 
       iteratedGameEngine = gameEngine.evalMap(engine =>
         playerInputs

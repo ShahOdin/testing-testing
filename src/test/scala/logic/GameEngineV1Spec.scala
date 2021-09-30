@@ -20,7 +20,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game Engine should process simple MoveUp successfully".tag(Scenarios.Simple)) {
     GameEngine
-      .v1[IO](
+      .V1[IO](
         gameDataWithBlankPlayer(startingAt = Coordinate(x = 2, y = 3))
       )
       .use { engine =>
@@ -36,7 +36,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game Engine should process simple MoveDown successfully".tag(Scenarios.Simple)) {
     GameEngine
-      .v1[IO](
+      .V1[IO](
         gameDataWithBlankPlayer(startingAt = Coordinate(x = 2, y = 3))
       )
       .use { engine =>
@@ -52,7 +52,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game Engine should process simple MoveRight successfully".tag(Scenarios.Simple)) {
     GameEngine
-      .v1[IO](
+      .V1[IO](
         gameDataWithBlankPlayer(startingAt = Coordinate(x = 2, y = 3))
       )
       .use { engine =>
@@ -68,7 +68,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game Engine should process simple MoveLeft successfully".tag(Scenarios.Simple)) {
     GameEngine
-      .v1[IO](
+      .V1[IO](
         gameDataWithBlankPlayer(startingAt = Coordinate(x = 2, y = 3))
       )
       .use { engine =>
@@ -86,7 +86,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game Engine should ignore MoveUp if already at max Y".tag(Scenarios.EdgeCase)) {
     GameEngine
-      .v1[IO](
+      .V1[IO](
         gameDataWithBlankPlayer(startingAt = Coordinate(x = 2, y = 5))
       )
       .use { engine =>
@@ -102,7 +102,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game Engine should ignore MoveDown if already at min Y".tag(Scenarios.EdgeCase)) {
     GameEngine
-      .v1[IO](
+      .V1[IO](
         gameDataWithBlankPlayer(startingAt = Coordinate(x = 2, y = 0))
       )
       .use { engine =>
@@ -118,7 +118,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game Engine should ignore MoveRight if already at max X".tag(Scenarios.EdgeCase)) {
     GameEngine
-      .v1[IO](
+      .V1[IO](
         gameDataWithBlankPlayer(startingAt = Coordinate(x = 5, y = 3))
       )
       .use { engine =>
@@ -134,7 +134,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game Engine should ignore MoveLeft if already at min X".tag(Scenarios.EdgeCase)) {
     GameEngine
-      .v1[IO](
+      .V1[IO](
         gameDataWithBlankPlayer(startingAt = Coordinate(x = 0, y = 3))
       )
       .use { engine =>
@@ -151,7 +151,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
   // generic test (4 inputs => 4 tests)
   test("game engine should process a generic MoveUp input successfully".tag(Scenarios.Generic)) {
     PropF.forAllF(gameDataWithBlankPlayerArbitrary.arbitrary) { gameData =>
-      GameEngine.v1[IO](gameData).use { engine =>
+      GameEngine.V1[IO](gameData).use { engine =>
         for {
           gameData <- engine.getGameData
           isAtMaxY     = gameData.playerIsAtMaxY
@@ -169,7 +169,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game engine should process a generic MoveDown input successfully".tag(Scenarios.Generic)) {
     PropF.forAllF(gameDataWithBlankPlayerArbitrary.arbitrary) { gameData =>
-      GameEngine.v1[IO](gameData).use { engine =>
+      GameEngine.V1[IO](gameData).use { engine =>
         for {
           gameData <- engine.getGameData
           isAtMinY     = gameData.playerIsAtMinY
@@ -187,7 +187,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game engine should process a generic MoveRight input successfully".tag(Scenarios.Generic)) {
     PropF.forAllF(gameDataWithBlankPlayerArbitrary.arbitrary) { gameData =>
-      GameEngine.v1[IO](gameData).use { engine =>
+      GameEngine.V1[IO](gameData).use { engine =>
         for {
           gameData <- engine.getGameData
           isAtMaxX     = gameData.playerIsAtMaxX
@@ -205,7 +205,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
 
   test("game engine should process a generic MoveLeft input successfully".tag(Scenarios.Generic)) {
     PropF.forAllF(gameDataWithBlankPlayerArbitrary.arbitrary) { gameData =>
-      GameEngine.v1[IO](gameData).use { engine =>
+      GameEngine.V1[IO](gameData).use { engine =>
         for {
           gameData <- engine.getGameData
           isAtMinX     = gameData.playerIsAtMinX
@@ -225,8 +225,8 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
   test(
     "game engine should process a generic MoveUp input successfully, for a simulated user.".tag(Scenarios.SimulatedQA)
   ) {
-    PropF.forAllF(gameDataResourceArbitrary[IO].arbitrary) { gameData =>
-      gameData.flatMap(GameEngine.v1[IO]).use { engine =>
+    PropF.forAllF(v1gameDataResourceArbitrary[IO].arbitrary) { gameData =>
+      gameData.flatMap(GameEngine.V1[IO]).use { engine =>
         for {
           gameData <- engine.getGameData
           isAtMaxY      = gameData.playerIsAtMaxY
@@ -246,8 +246,8 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
   test(
     "game engine should process a generic MoveDown input successfully, for a simulated user.".tag(Scenarios.SimulatedQA)
   ) {
-    PropF.forAllF(gameDataResourceArbitrary[IO].arbitrary) { gameData =>
-      gameData.flatMap(GameEngine.v1[IO]).use { engine =>
+    PropF.forAllF(v1gameDataResourceArbitrary[IO].arbitrary) { gameData =>
+      gameData.flatMap(GameEngine.V1[IO]).use { engine =>
         for {
           gameData <- engine.getGameData
           isAtMinY      = gameData.playerIsAtMinY
@@ -268,8 +268,8 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
     "game engine should process a generic MoveRight input successfully, for a simulated user."
       .tag(Scenarios.SimulatedQA)
   ) {
-    PropF.forAllF(gameDataResourceArbitrary[IO].arbitrary) { gameData =>
-      gameData.flatMap(GameEngine.v1[IO]).use { engine =>
+    PropF.forAllF(v1gameDataResourceArbitrary[IO].arbitrary) { gameData =>
+      gameData.flatMap(GameEngine.V1[IO]).use { engine =>
         for {
           gameData <- engine.getGameData
           isAtMaxX      = gameData.playerIsAtMaxX
@@ -289,8 +289,8 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
   test(
     "game engine should process a generic MoveLeft input successfully, for a simulated user.".tag(Scenarios.SimulatedQA)
   ) {
-    PropF.forAllF(gameDataResourceArbitrary[IO].arbitrary) { gameData =>
-      gameData.flatMap(GameEngine.v1[IO]).use { engine =>
+    PropF.forAllF(v1gameDataResourceArbitrary[IO].arbitrary) { gameData =>
+      gameData.flatMap(GameEngine.V1[IO]).use { engine =>
         for {
           gameData <- engine.getGameData
           isAtMinX      = gameData.playerIsAtMinX
