@@ -74,7 +74,7 @@ For the purposes of this simple game, where the future state is determined purel
 - The idea is to: 
   - Start from a blank slate
   - generate a random set of user inputs
-  - iterate the game data, using game engine (just as done in production) based on the inputs (possibly save them somewhere and avoid doing this every time.)
+  - iterate the game data, using game engine (just as done in production) based on the inputs (possibly save them somewhere and avoid doing this every time: https://github.com/ShahOdin/testing-testing/pull/2 )
   - take the resulting data and run our generic tests on them
 
 - To run the [qa-tests](./src/test/scala/logic/GameEngineV1Spec.scala#L224-L308) simply run:
