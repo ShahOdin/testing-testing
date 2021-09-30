@@ -5,7 +5,7 @@ A short demonstration of a challenges and strategies for testing complex systems
 Table of contents
 
 - [Description of the Game](#description)
-- [Unit tests](#unit-tests)
+- [Simple tests](#simple-tests)
 - [Generic tests](#generic-tests)
 - [Simulated QA tests](#simulated-qa-tests)
 - [Laws](#Laws)
@@ -36,7 +36,7 @@ trait GameEngine[F[_]] {
 }
 ```
 
-# Unit tests
+# Simple tests
 
 - The devs/product teams are tasked with defining these and it can be quite time-consuming to set these up. It's easy to miss a scenario.
 
