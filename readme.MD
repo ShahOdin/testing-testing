@@ -15,10 +15,10 @@ Table of contents
 The game we are looking at, consists of a simple 2d grid and a player that can navigate it using the following inputs:
 
 ```scala
-  case object MoveUp extends PlayerInput
-  case object MoveDown extends PlayerInput
+  case object MoveUp    extends PlayerInput
+  case object MoveDown  extends PlayerInput
   case object MoveRight extends PlayerInput
-  case object MoveLeft extends PlayerInput
+  case object MoveLeft  extends PlayerInput
 ```
 
 The game-data consists of the following:
