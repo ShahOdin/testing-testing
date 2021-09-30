@@ -1,10 +1,15 @@
-import cats.effect.Sync
+import cats.effect.{IO, Sync, unsafe}
 import cats.effect.kernel.Resource
 import models.{Coordinate, GameData, Grid, PlayerData, PlayerInput}
 import org.scalacheck.{Arbitrary, Gen}
 import enumeratum.scalacheck._
 import logic.GameEngine
 import cats.syntax.all._
+import cats.instances.list._
+import io.circe.parser._
+import codecs._
+
+import scala.io.Source
 
 package object generators {
 
@@ -15,11 +20,11 @@ package object generators {
     } yield Coordinate(x = x, y = y)
 
   private val gridGen: Gen[Grid] = for {
-    minX <- Gen.size
-    minY <- Gen.size
+    minX <- Gen.posNum[Int]
+    minY <- Gen.posNum[Int]
 
-    xBand <- Gen.size
-    yBand <- Gen.size
+    xBand <- Gen.posNum[Int]
+    yBand <- Gen.posNum[Int]
   } yield Grid(minX, minX + xBand, minY, minY + yBand)
 
   private def blankPlayerDataGen(grid: Grid): Gen[PlayerData] =
@@ -51,4 +56,16 @@ package object generators {
       gameEngine <- v1GameEngineResourceGen
       gameDataResource = gameEngine.evalMap(_.getGameData)
     } yield gameDataResource
+
+  def v1GameEngineGameDataFromFileResourceGen(implicit runtime: unsafe.IORuntime): Gen[Resource[IO, GameData]] =
+    Gen.oneOf(
+      Resource
+        .fromAutoCloseable(Source.fromFile("gamedata.txt").pure[IO])
+        .map(_.getLines().map(parse).toList.traverse(_.flatMap(_.as[GameData])))
+        .map(IO.fromEither)
+        .flatMap(Resource.eval)
+        .use(IO.pure)
+        .unsafeRunSync()
+        .map(Resource.pure[IO, GameData])
+    )
 }
