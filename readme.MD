@@ -85,4 +85,4 @@ For the purposes of this simple game, where the future state is determined purel
   
 # Laws
 
-tbc
+https://github.com/ShahOdin/testing-testing/pull/1
