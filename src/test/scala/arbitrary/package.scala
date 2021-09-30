@@ -22,7 +22,7 @@ package object arbitrary {
       )
     )
 
-  def v1GameEngineResourceArbitraryIO(
+  def v1GameEngineResourceFromFileArbitrary(
       implicit runtime: unsafe.IORuntime
   ): Arbitrary[Resource[IO, GameEngine.V1[IO]]] = Arbitrary(
     v1GameEngineGameDataFromFileResourceGen.map(

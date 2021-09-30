@@ -18,7 +18,7 @@ class GameEngineV1LawfulnessSpec extends munit.CatsEffectSuite with munit.Discip
   }
 
   {
-    implicit val arbitrary: Arbitrary[Resource[IO, GameEngine.V1[IO]]] = v1GameEngineResourceArbitraryIO
+    implicit val arbitrary: Arbitrary[Resource[IO, GameEngine.V1[IO]]] = v1GameEngineResourceFromFileArbitrary
     checkAll(
       "GameEngine.V1 has lawful impl for all previously generated game data.".tag(Scenarios.Laws),
       GameEngineV1AlegraTests[IO].algebra
