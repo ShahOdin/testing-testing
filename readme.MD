@@ -64,8 +64,8 @@ For the purposes of this simple game, where the future state is determined purel
 
 # Simulated QA tests
 
-- In general however, systems are more complicated. In general, systems have multiple components:
-  - possibly with an action of distance where seemingly unrelated components impact each other
+- In general however, things are more complicated. Usually systems have multiple components:
+  - possibly with an action at the distance where seemingly unrelated components impact each other
   - the history of how they got there, matters. 
 
   
