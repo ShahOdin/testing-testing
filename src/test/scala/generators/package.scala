@@ -46,7 +46,7 @@ package object generators {
 
     } yield iteratedGameEngine
 
-  def v1GameEngineGameDataResource[F[_]: Sync]: Gen[Resource[F, GameData]] =
+  def v1GameEngineGameDataResourceGen[F[_]: Sync]: Gen[Resource[F, GameData]] =
     for {
       gameEngine <- v1GameEngineResourceGen
       gameDataResource = gameEngine.evalMap(_.getGameData)
