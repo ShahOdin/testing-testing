@@ -12,5 +12,9 @@ package object arbitrary {
 
   implicit val playerInputArbitrary: Arbitrary[PlayerInput] = arbEnumEntry
   implicit def v1GameEngineResourceArbitrary[F[_]: Sync]: Arbitrary[Resource[F, GameEngine.V1[F]]] =
-    Arbitrary(v1GameEngineResourceGen)
+    Arbitrary(
+      v1GameEngineGameDataResource.map(
+        _.flatMap(GameEngine.V1.apply[F])
+      )
+    )
 }

@@ -32,7 +32,7 @@ package object generators {
     playerData <- blankPlayerDataGen(grid)
   } yield GameData(grid, playerData)
 
-  def v1GameEngineResourceGen[F[_]: Sync]: Gen[Resource[F, GameEngine.V1[F]]] =
+  private def v1GameEngineResourceGen[F[_]: Sync]: Gen[Resource[F, GameEngine.V1[F]]] =
     for {
       blankGameData <- gameDataWithBlankPlayerGen
       playerInputs  <- Gen.nonEmptyListOf(implicitly[Arbitrary[PlayerInput]].arbitrary)
