@@ -77,7 +77,7 @@ For the purposes of this simple game, where the future state is determined purel
   - iterate the game data, using game engine (just as done in production) based on the inputs (possibly save them somewhere and avoid doing this every time.)
   - take the resulting data and run our generic tests on them
 
-- To run the [qa-tests](./src/test/scala/logic/GameEngineV1Spec.scala#224-L245) simply run:
+- To run the [qa-tests](./src/test/scala/logic/GameEngineV1Spec.scala#L224-L245) simply run:
 
     ```bash
     sbt "testOnly -- --include-tags=qa"
