@@ -8,10 +8,11 @@ import cats.syntax.all._
 
 package object generators {
 
-  private def startingCoordGen(grid: Grid): Gen[Coordinate] = for {
-    x <- Gen.chooseNum(grid.minX, grid.maxX)
-    y <- Gen.chooseNum(grid.minY, grid.maxY)
-  } yield Coordinate(x = x, y = y)
+  private def startingCoordGen(grid: Grid): Gen[Coordinate] =
+    for {
+      x <- Gen.chooseNum(grid.minX, grid.maxX)
+      y <- Gen.chooseNum(grid.minY, grid.maxY)
+    } yield Coordinate(x = x, y = y)
 
   private val gridGen: Gen[Grid] = for {
     minX <- Gen.size
@@ -21,27 +22,28 @@ package object generators {
     yBand <- Gen.size
   } yield Grid(minX, minX + xBand, minY, minY + yBand)
 
-  private def blankPlayerDataGen(grid: Grid): Gen[PlayerData] = for {
-    coord <- startingCoordGen(grid)
-  } yield PlayerData(coord, history = Nil)
+  private def blankPlayerDataGen(grid: Grid): Gen[PlayerData] =
+    for {
+      coord <- startingCoordGen(grid)
+    } yield PlayerData(coord, history = Nil)
 
   val gameDataWithBlankPlayerGen: Gen[GameData] = for {
-    grid <- gridGen
+    grid       <- gridGen
     playerData <- blankPlayerDataGen(grid)
   } yield GameData(grid, playerData)
 
+  def gameDataResourceGen[F[_]: Sync]: Gen[Resource[F, GameData]] =
+    for {
+      blankGameData <- gameDataWithBlankPlayerGen
+      playerInputs  <- Gen.nonEmptyListOf(implicitly[Arbitrary[PlayerInput]].arbitrary)
+      gameEngine = GameEngine.v1[F](blankGameData)
 
-  def gameDataResourceGen[F[_]: Sync]: Gen[Resource[F, GameData]] = for {
-    blankGameData <- gameDataWithBlankPlayerGen
-    playerInputs <- Gen.nonEmptyListOf(implicitly[Arbitrary[PlayerInput]].arbitrary)
-    gameEngine = GameEngine.v1[F](blankGameData)
+      iteratedGameEngine = gameEngine.evalMap(engine =>
+        playerInputs
+          .traverse_(engine.process)
+          .as(engine.getGameData)
+          .flatten
+      )
 
-    iteratedGameEngine = gameEngine.evalMap(engine =>
-      playerInputs
-        .traverse_(engine.process)
-        .as(engine.getGameData)
-        .flatten
-    )
-
-  } yield iteratedGameEngine
+    } yield iteratedGameEngine
 }

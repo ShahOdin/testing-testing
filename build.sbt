@@ -18,15 +18,13 @@ inThisBuild(
   )
 )
 
-Compile / scalafmtConfig := file("../.scalafmt.conf")
+Compile / scalafmtConfig := file(".scalafmt.conf")
 scalafmtOnCompile := true
 
 lazy val credentialsLocation: Seq[File] = (
   sys.props.get("credentials.location").map(file).toList ++
     List(Path.userHome.asFile / ".ivy2" / ".credentials")
-  ).filter(_.exists())
-
-scalafixOnCompile := true
+).filter(_.exists())
 
 Compile / packageBin / publishArtifact := true
 
