@@ -65,11 +65,11 @@ For the purposes of this simple game, where the future state is determined purel
 # Simulated QA tests
 
 - In general however, things are more complicated. Usually systems have multiple components:
-  - possibly with an action at the distance where seemingly unrelated components impact each other
+  - possibly with an action at the distance, or simply seemingly unrelated components impacting each other
   - the history of how they got there, matters. 
 
   
-- The first case is easy to imagine. Just google 3 body problem! :) As for the second case, think of our original game, except that there is an additional rule: You can not re-visit a coordinate that you have previously visited! This brings a whole set of scenarios that the generic tests don't cover since all of our tests start from a blank slate and simply process a single input. As rules like this accumulate, it becomes harder and harder to think of all the scenarios to cover.
+- The first case is easy to imagine. Just google 3 body problem! :) As for the second case, think of our original game, except that there is an additional rule: You can not re-visit a coordinate that you have previously visited! This brings a whole set of scenarios that the generic tests don't cover since all of our tests so far, start from a blank slate and simply process a single input. As rules like this accumulate, it becomes harder and harder to think of all the scenarios to cover.
 
 - The idea is to: 
   - Start from a blank slate
