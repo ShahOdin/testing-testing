@@ -48,15 +48,15 @@ trait GameEngine[F[_]] {
 
     This will run:
 
-  - pre-defined simple scenarios
-  - pre-defined edge case scenarios
+  - [pre-defined simple scenarios](./src/test/scala/logic/GameEngineV1Spec.scala#L19-L83)
+  - [pre-defined edge case scenarios](./src/test/scala/logic/GameEngineV1Spec.scala#L85-L150)
 
 # Generic tests
 
 - There is an initial investment, but they reduce the number of specific scenarios to think about.
 For the purposes of this simple game, where the future state is determined purely by the last input, these are all we need.
 
-- To run the generic-tests simply run:
+- To run the [generic-tests](./src/test/scala/logic/GameEngineV1Spec.scala#L151-L223) simply run:
 
     ```bash
     sbt "testOnly -- --include-tags=generic"
@@ -77,7 +77,7 @@ For the purposes of this simple game, where the future state is determined purel
   - iterate the game data, using game engine (just as done in production) based on the inputs (possibly save them somewhere and avoid doing this every time.)
   - take the resulting data and run our generic tests on them
 
-- To run the generic-tests simply run:
+- To run the [qa-tests](./src/test/scala/logic/GameEngineV1Spec.scala#224-L245) simply run:
 
     ```bash
     sbt "testOnly -- --include-tags=qa"

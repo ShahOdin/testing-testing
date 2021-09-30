@@ -16,7 +16,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
     player = PlayerData(startingAt, history = Nil)
   )
 
-  // Generic movements ( 4 inputs => 4 tests)
+  // Simple cases ( 4 inputs => 4 tests)
 
   test("game Engine should process simple MoveUp successfully".tag(Scenarios.Simple)) {
     GameEngine
@@ -82,7 +82,7 @@ class GameEngineV1Spec extends munit.CatsEffectSuite with ScalaCheckEffectSuite 
       }
   }
 
-  // Inputs special case ( 4 inputs => 4 tests)
+  // special case ( 4 inputs => 4 tests)
 
   test("game Engine should ignore MoveUp if already at max Y".tag(Scenarios.EdgeCase)) {
     GameEngine
