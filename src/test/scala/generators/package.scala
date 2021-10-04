@@ -15,11 +15,11 @@ package object generators {
     } yield Coordinate(x = x, y = y)
 
   private val gridGen: Gen[Grid] = for {
-    minX <- Gen.size
-    minY <- Gen.size
+    minX <- Gen.posNum[Int]
+    minY <- Gen.posNum[Int]
 
-    xBand <- Gen.size
-    yBand <- Gen.size
+    xBand <- Gen.posNum[Int]
+    yBand <- Gen.posNum[Int]
   } yield Grid(minX, minX + xBand, minY, minY + yBand)
 
   private def blankPlayerDataGen(grid: Grid): Gen[PlayerData] =
