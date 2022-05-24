@@ -15,11 +15,11 @@ package object generators {
     } yield Coordinate(x = x, y = y)
 
   private val gridGen: Gen[Grid] = for {
-    minX <- Gen.size
-    minY <- Gen.size
+    minX <- Gen.posNum[Int]
+    minY <- Gen.posNum[Int]
 
-    xBand <- Gen.size
-    yBand <- Gen.size
+    xBand <- Gen.posNum[Int]
+    yBand <- Gen.posNum[Int]
   } yield Grid(minX, minX + xBand, minY, minY + yBand)
 
   private def blankPlayerDataGen(grid: Grid): Gen[PlayerData] =
@@ -32,7 +32,7 @@ package object generators {
     playerData <- blankPlayerDataGen(grid)
   } yield GameData(grid, playerData)
 
-  def v1gameDataResourceGen[F[_]: Sync]: Gen[Resource[F, GameData]] =
+  private def v1GameEngineResourceGen[F[_]: Sync]: Gen[Resource[F, GameEngine.V1[F]]] =
     for {
       blankGameData <- gameDataWithBlankPlayerGen
       playerInputs  <- Gen.nonEmptyListOf(implicitly[Arbitrary[PlayerInput]].arbitrary)
@@ -41,9 +41,14 @@ package object generators {
       iteratedGameEngine = gameEngine.evalMap(engine =>
         playerInputs
           .traverse_(engine.process)
-          .as(engine.getGameData)
-          .flatten
+          .as(engine)
       )
 
     } yield iteratedGameEngine
+
+  def v1GameEngineGameDataResourceGen[F[_]: Sync]: Gen[Resource[F, GameData]] =
+    for {
+      gameEngine <- v1GameEngineResourceGen
+      gameDataResource = gameEngine.evalMap(_.getGameData)
+    } yield gameDataResource
 }

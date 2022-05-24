@@ -85,4 +85,9 @@ For the purposes of this simple game, where the future state is determined purel
   
 # Laws
 
-https://github.com/ShahOdin/testing-testing/pull/1
+- We can make the QA tests above a bit more formal using cats-laws.
+- To run the [lawfulnessTests](./src/test/scala/logic/GameEngineV1LawfulnessSpec.scala#L10-L13) simply run:
+
+    ```bash
+    sbt "testOnly -- --include-tags=laws"
+    ```

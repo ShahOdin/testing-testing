@@ -14,5 +14,7 @@ object Scenarios {
   object Generic extends Scenarios("generic")
   //fully generic case
   object SimulatedQA extends Scenarios("qa")
+  //formal laws
+  object Laws extends Scenarios("laws")
 
 }

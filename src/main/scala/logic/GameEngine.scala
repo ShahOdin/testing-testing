@@ -21,7 +21,7 @@ object GameEngine {
   // - ignore movement inputs if at the edge of the grid.
   trait V1[F[_]] extends GameEngine[F]
   object V1 {
-    def apply[F[_]: Sync](gameData: GameData): Resource[F, GameEngine[F]] = Resource.eval(
+    def apply[F[_]: Sync](gameData: GameData): Resource[F, GameEngine.V1[F]] = Resource.eval(
       Ref.of[F, GameData](gameData).map { ref =>
         new GameEngine.V1[F] {
           val movePlayer: PlayerInput => State[GameData, Unit] = {
